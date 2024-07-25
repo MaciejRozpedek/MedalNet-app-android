@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.macroz.medalnet.adapters.CircleAdapter
 import com.macroz.medalnet.databinding.FragmentFirstBinding
 
 /**
@@ -13,6 +15,7 @@ import com.macroz.medalnet.databinding.FragmentFirstBinding
  */
 class FirstFragment : Fragment() {
 
+    private lateinit var m: MainActivity
     private var _binding: FragmentFirstBinding? = null
 
     // This property is only valid between onCreateView and
@@ -35,6 +38,15 @@ class FirstFragment : Fragment() {
         binding.buttonFirst.setOnClickListener {
             findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        val recyclerView = binding.recyclerView
+        val adapter = CircleAdapter(context!!, 5)
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
     }
 
     override fun onDestroyView() {

@@ -8,13 +8,34 @@
     <fragment
         android:id="@+id/FirstFragment"
         android:name="com.macroz.medalnet.FirstFragment"
-        android:label="@string/first_fragment_label"
+        android:label="@string/app_name"
         tools:layout="@layout/fragment_first">
 
         <action
             android:id="@+id/action_FirstFragment_to_SecondFragment"
             app:destination="@id/SecondFragment" />
+        <action
+            android:id="@+id/action_FirstFragment_to_SearchScreen"
+            app:destination="@id/SearchScreen" />
+        <action
+            android:id="@+id/action_FirstFragment_to_AddScreen"
+            app:destination="@id/AddScreen" />
+        <action
+            android:id="@+id/action_FirstFragment_to_EditScreen"
+            app:destination="@id/EditScreen" />
     </fragment>
+    <fragment
+        android:id="@+id/SearchScreen"
+        android:name="com.macroz.medalnet.SearchScreen"
+        tools:layout="@layout/search_screen" />
+    <fragment
+        android:id="@+id/AddScreen"
+        android:name="com.macroz.medalnet.AddScreen"
+        tools:layout="@layout/add_screen" />
+    <fragment
+        android:id="@+id/EditScreen"
+        android:name="com.macroz.medalnet.EditScreen"
+        tools:layout="@layout/edit_screen" />
     <fragment
         android:id="@+id/SecondFragment"
         android:name="com.macroz.medalnet.SecondFragment"
