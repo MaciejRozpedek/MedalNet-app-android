@@ -2,6 +2,7 @@ package com.macroz.medalnet
 
 import android.app.Application
 import android.widget.Toast
+import com.macroz.medalnet.repository.DataRepository
 import com.macroz.medalnet.service.UserService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
@@ -12,8 +13,7 @@ import kotlinx.coroutines.runBlocking
 //    MedalNetApplication.userService!!
 //}
 
-//var token: String = ""
-
+val token: String = "Bearer testToken123"
 class MedalNetApplication: Application() {
 
     companion object {
@@ -26,16 +26,8 @@ class MedalNetApplication: Application() {
         super.onCreate()
 
         instance = this
-//        userService = UserService(applicationContext)
-//        runBlocking {
-//            launch {
-//              val loginResDTO = userService!!.login("email",
-//                  "user123456@pass.net", "p@sswOrd")
-//println(loginResDTO?.token)
-//                Toast.makeText(applicationContext, loginResDTO?.token, Toast.LENGTH_LONG).show()
-//            }
-//        }
     }
 
+    val repository by lazy { DataRepository() }
     val applicationScope = CoroutineScope(SupervisorJob())
 }

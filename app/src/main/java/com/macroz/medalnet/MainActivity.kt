@@ -12,9 +12,12 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.widget.SearchView
 import com.google.gson.annotations.SerializedName
 import com.macroz.medalnet.databinding.ActivityMainBinding
+import com.macroz.medalnet.viewModel.DataViewModel
+import com.macroz.medalnet.viewModel.DataViewModelFactory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -35,6 +38,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
     private lateinit var searchView: SearchView
+    val dataViewModel: DataViewModel by viewModels {
+        DataViewModelFactory((application as MedalNetApplication).repository)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,10 +53,6 @@ class MainActivity : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
 
-//        binding.fab.setOnClickListener { view ->
-//            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                .setAction("Action", null).show()
-//        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import androidx.fragment.app.Fragment
+import com.macroz.medalnet.data.Medal
 import com.macroz.medalnet.databinding.AddScreenBinding
 
 class AddScreen : Fragment() {
@@ -29,18 +31,40 @@ class AddScreen : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        binding.buttonFirst.setOnClickListener {
-//            findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
-//        }
+        val numberEditText: EditText = binding.addScreenMedalNumber
+        val nameEditText: EditText = binding.addScreenMedalName
+        val surnameEditText: EditText = binding.addScreenMedalSurname
+        val rankEditText: EditText = binding.addScreenMedalRank
+        val unitEditText: EditText = binding.addScreenMedalUnit
+        val yearEditText: EditText = binding.addScreenMedalYear
+        val notesEditText: EditText = binding.addScreenMedalNotes
+
+
+        binding.addButton.setOnClickListener{
+            val medal = Medal(
+                id = -1,
+                number = numberEditText.text.toString(),
+                name = nameEditText.text.toString(),
+                surname = surnameEditText.text.toString(),
+                rank = rankEditText.text.toString(),
+                unit = unitEditText.text.toString(),
+                year = yearEditText.text.toString().toLongOrNull(),
+                notes = notesEditText.text.toString(),
+                userId = -1
+            )
+//            TODO("send to server the new medal")
+            numberEditText.text.clear()
+            nameEditText.text.clear()
+            surnameEditText.text.clear()
+            rankEditText.text.clear()
+            unitEditText.text.clear()
+            yearEditText.text.clear()
+            notesEditText.text.clear()
+        }
     }
 
     override fun onResume() {
         super.onResume()
-
-//        val recyclerView = binding.recyclerView
-//        val adapter = CircleAdapter(context!!, 5)
-//        recyclerView.adapter = adapter
-//        recyclerView.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
     }
 
     override fun onDestroyView() {
