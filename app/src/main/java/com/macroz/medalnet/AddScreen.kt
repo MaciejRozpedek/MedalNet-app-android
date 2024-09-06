@@ -5,24 +5,35 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.macroz.medalnet.data.Medal
 import com.macroz.medalnet.databinding.AddScreenBinding
+import com.macroz.medalnet.repository.DataRepository
 
-class AddScreen : Fragment() {
+class AddScreen : Fragment(), DataRepository.AddMedalCallback {
 
-    //    private lateinit var m: MainActivity
+        private lateinit var m: MainActivity
     private var _binding: AddScreenBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
 
+    private lateinit var numberEditText: EditText
+    private lateinit var nameEditText: EditText
+    private lateinit var surnameEditText: EditText
+    private lateinit var rankEditText: EditText
+    private lateinit var unitEditText: EditText
+    private lateinit var yearEditText: EditText
+    private lateinit var notesEditText: EditText
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
+        m = activity as MainActivity
         _binding = AddScreenBinding.inflate(inflater, container, false)
         return binding.root
 
@@ -31,13 +42,13 @@ class AddScreen : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val numberEditText: EditText = binding.addScreenMedalNumber
-        val nameEditText: EditText = binding.addScreenMedalName
-        val surnameEditText: EditText = binding.addScreenMedalSurname
-        val rankEditText: EditText = binding.addScreenMedalRank
-        val unitEditText: EditText = binding.addScreenMedalUnit
-        val yearEditText: EditText = binding.addScreenMedalYear
-        val notesEditText: EditText = binding.addScreenMedalNotes
+        numberEditText = binding.addScreenMedalNumber
+        nameEditText = binding.addScreenMedalName
+        surnameEditText = binding.addScreenMedalSurname
+        rankEditText = binding.addScreenMedalRank
+        unitEditText = binding.addScreenMedalUnit
+        yearEditText = binding.addScreenMedalYear
+        notesEditText = binding.addScreenMedalNotes
 
 
         binding.addButton.setOnClickListener{
@@ -52,14 +63,8 @@ class AddScreen : Fragment() {
                 notes = notesEditText.text.toString(),
                 userId = -1
             )
-//            TODO("send to server the new medal")
-            numberEditText.text.clear()
-            nameEditText.text.clear()
-            surnameEditText.text.clear()
-            rankEditText.text.clear()
-            unitEditText.text.clear()
-            yearEditText.text.clear()
-            notesEditText.text.clear()
+
+            m.dataViewModel.addMedal(medal, token, this)
         }
     }
 
@@ -69,6 +74,22 @@ class AddScreen : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
+//        _binding = null
+    }
+
+    override fun onSuccess() {
+        numberEditText.text.clear()
+        nameEditText.text.clear()
+        surnameEditText.text.clear()
+        rankEditText.text.clear()
+        unitEditText.text.clear()
+        yearEditText.text.clear()
+        notesEditText.text.clear()
+
+        Toast.makeText(m, "Medal successfully added!", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onFailure(message: String) {
+        Toast.makeText(m, message, Toast.LENGTH_SHORT).show()
     }
 }

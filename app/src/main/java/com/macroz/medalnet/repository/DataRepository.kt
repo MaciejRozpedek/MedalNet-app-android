@@ -85,4 +85,27 @@ class DataRepository {
 
         return medals
     }
+
+    interface AddMedalCallback {
+        fun onSuccess()
+        fun onFailure(message: String)
+    }
+
+    fun addMedal(medal: Medal, bearerToken: String, callback: AddMedalCallback) {
+        val call = apiService.addMedal(medal, "$bearerToken")
+
+        call.enqueue(object : Callback<Medal> {
+            override fun onResponse(call: Call<Medal>, response: Response<Medal>) {
+                if (response.isSuccessful) {
+                    callback.onSuccess()
+                } else {
+                    callback.onFailure("Failed to add medal: ${response.message()}")
+                }
+            }
+
+            override fun onFailure(call: Call<Medal>, t: Throwable) {
+                callback.onFailure("Request failed: ${t.message}")
+            }
+        })
+    }
 }

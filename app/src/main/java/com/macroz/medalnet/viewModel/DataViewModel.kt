@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.macroz.medalnet.data.Medal
 import com.macroz.medalnet.repository.DataRepository
+import com.macroz.medalnet.repository.DataRepository.AddMedalCallback
 
 class DataViewModel(private val repository: DataRepository) : ViewModel() {
 
@@ -14,6 +15,10 @@ class DataViewModel(private val repository: DataRepository) : ViewModel() {
 
     fun searchMedalsByName(query: String): LiveData<List<Medal>> {
         return repository.getMedalsByName(query)
+    }
+
+    fun addMedal(medal: Medal, bearerToken: String, callback: AddMedalCallback) {
+        repository.addMedal(medal, bearerToken, callback)
     }
 }
 

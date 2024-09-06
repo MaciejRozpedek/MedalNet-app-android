@@ -9,13 +9,6 @@
         android:title="@string/action_settings" />
 
     <item
-        android:id="@+id/searchView"
-        android:title="@string/search_title"
-        android:icon="@drawable/ic_search"
-        app:actionViewClass="androidx.appcompat.widget.SearchView"
-        app:showAsAction="collapseActionView|ifRoom" />
-
-    <item
         android:id="@+id/action_profile_options"
         app:showAsAction="always"
         android:icon="@drawable/user_avatar_filled"

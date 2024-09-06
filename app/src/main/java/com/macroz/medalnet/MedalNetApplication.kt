@@ -1,19 +1,17 @@
 package com.macroz.medalnet
 
 import android.app.Application
-import android.widget.Toast
 import com.macroz.medalnet.repository.DataRepository
 import com.macroz.medalnet.service.UserService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 
-//val userService: UserService by lazy {
-//    MedalNetApplication.userService!!
-//}
+val userService: UserService by lazy {
+    MedalNetApplication.userService!!
+}
+// TODO("add logging")
+val token: String = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyMTIzNDU2QHBhc3MubmV0IiwidXNlcm5hbWUiOiJ1c2VyMTIzNDU2IiwiZXhwIjoxOTM4ODk2MjQ4fQ.WW8ZqKJxX-g8tOG_4rkFeTJARz-Dm5nM08gXo2c-0gs"
 
-val token: String = "Bearer testToken123"
 class MedalNetApplication: Application() {
 
     companion object {
