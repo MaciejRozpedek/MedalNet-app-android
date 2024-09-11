@@ -6,11 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
-import com.macroz.medalnet.databinding.LoginScreenBinding
+import com.macroz.medalnet.databinding.RegisterScreenBinding
 
-class LoginScreen : Fragment() {
+class RegisterScreen : Fragment() {
 
-    private var _binding: LoginScreenBinding? = null
+    private var _binding: RegisterScreenBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -21,7 +21,7 @@ class LoginScreen : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        _binding = LoginScreenBinding.inflate(inflater, container, false)
+        _binding = RegisterScreenBinding.inflate(inflater, container, false)
         return binding.root
 
     }
@@ -29,23 +29,24 @@ class LoginScreen : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val editTextUsername = binding.editTextUsername
         val editTextEmail = binding.editTextEmail
         val editTextPassword = binding.editTextPassword
-        val textViewSignUp = binding.textViewSignUp
-
-        editTextEmail.setText(prefs.getEmail())
-        editTextPassword.setText(prefs.getPassword())
+        val editTextConfirmPassword = binding.editTextConfirmPassword
+        val textViewSignUp = binding.textViewSignIn
 
         textViewSignUp.setOnClickListener {
-            findNavController().navigate(R.id.action_LoginScreen_to_RegisterScreen)
+            findNavController().navigate(R.id.action_RegisterScreen_to_LoginScreen)
         }
 
-        binding.loginButton.setOnClickListener {
+        binding.registerButton.setOnClickListener {
+            val username: String = editTextUsername.text.toString()
             val email: String = editTextEmail.text.toString()
             val password: String = editTextPassword.text.toString()
-            //TODO(login)
+            val confirmPassword: String = editTextConfirmPassword.text.toString()
+            //TODO(register)
 
-            findNavController().navigate(R.id.action_LoginScreen_to_FirstFragment)
+            findNavController().navigate(R.id.action_RegisterScreen_to_LoginScreen)
             prefs.saveEmail(email)
             prefs.savePassword(password)
         }

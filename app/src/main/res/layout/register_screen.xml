@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginScreen">
+    tools:context=".MainActivity">
 
     <LinearLayout
         android:layout_width="0dp"
@@ -25,11 +25,25 @@
             android:src="@mipmap/ic_launcher" />
 
         <EditText
-            android:id="@+id/editTextEmail"
+            android:id="@+id/editTextUsername"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="50dp"
+            android:layout_marginRight="15dp"
+            android:autofillHints="username"
+            android:ems="1"
+            android:hint="username"
+            android:inputType="text"
+            android:minHeight="48dp"
+            android:textColorHint="#757575" />
+
+        <EditText
+            android:id="@+id/editTextEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
             android:layout_marginRight="15dp"
             android:autofillHints="emailAddress"
             android:ems="10"
@@ -52,20 +66,34 @@
             android:minHeight="48dp"
             android:textColorHint="#757575" />
 
+        <EditText
+            android:id="@+id/editTextConfirmPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="15dp"
+            android:autofillHints="password"
+            android:ems="10"
+            android:hint="Confirm Password"
+            android:inputType="textPassword"
+            android:minHeight="48dp"
+            android:textColorHint="#757575" />
+
         <Button
-            android:id="@+id/loginButton"
+            android:id="@+id/registerButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
-            android:text="login" />
+            android:text="register" />
 
         <TextView
-            android:id="@+id/textViewSignUp"
+            android:id="@+id/textViewSignIn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
             android:gravity="center_horizontal"
-            android:text="Don't have an account? Sign up"
+            android:text="Already have an account? Sign in"
             android:textColor="#18206F"
             android:textSize="16sp" />
 

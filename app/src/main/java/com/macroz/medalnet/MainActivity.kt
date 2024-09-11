@@ -44,7 +44,8 @@ class MainActivity : AppCompatActivity() {
         else navGraph.setStartDestination(R.id.LoginScreen)
 
         navController.graph = navGraph
-        appBarConfiguration = AppBarConfiguration(navController.graph)
+        val topLevelDestinations = setOf(R.id.FirstFragment, R.id.LoginScreen, R.id.RegisterScreen)
+        appBarConfiguration = AppBarConfiguration(topLevelDestinations)
         setupActionBarWithNavController(navController, appBarConfiguration)
 
     }
@@ -64,34 +65,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+        val navController = findNavController(R.id.nav_host_fragment_content_main)
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            invalidateOptionsMenu()
+        }
         return when (item.itemId) {
             R.id.action_settings -> true
             else -> super.onOptionsItemSelected(item)
-        }
-    }
-
-    private fun setupAccountScreen() {
-        val profileImage = findViewById<ImageView>(R.id.profile_image)
-        val usernameText = findViewById<TextView>(R.id.username)
-        val loginButton = findViewById<Button>(R.id.login_button)
-
-        if (true) {
-            // Show user details if logged in
-            profileImage.setImageResource(R.drawable.user_avatar_filled) // Example avatar
-            usernameText.text = "John Doe" // Replace with actual user info
-            loginButton.visibility = View.GONE
-        } else {
-            // Show login option if not logged in
-            profileImage.visibility = View.GONE
-            usernameText.visibility = View.GONE
-            loginButton.visibility = View.VISIBLE
-
-            loginButton.setOnClickListener {
-                // Handle login action
-            }
         }
     }
 
