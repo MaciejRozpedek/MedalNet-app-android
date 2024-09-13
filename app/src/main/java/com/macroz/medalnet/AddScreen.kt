@@ -64,7 +64,7 @@ class AddScreen : Fragment(), DataRepository.AddMedalCallback {
                 userId = -1
             )
 
-            m.dataViewModel.addMedal(medal, token, this)
+            m.dataViewModel.addMedal(medal, this)
         }
     }
 

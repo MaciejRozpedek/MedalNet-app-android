@@ -5,11 +5,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.macroz.medalnet.databinding.LoginScreenBinding
 
 class LoginScreen : Fragment() {
 
+    private lateinit var m: MainActivity
     private var _binding: LoginScreenBinding? = null
 
     // This property is only valid between onCreateView and
@@ -21,6 +23,18 @@ class LoginScreen : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
+        m = activity as MainActivity
+
+        m.dataViewModel.loginSuccess.observe(this) { isSuccess ->
+            if (isSuccess == true) {
+                Toast.makeText(m, "Login successful", Toast.LENGTH_SHORT).show()
+                m.dataViewModel.loginHandled()
+                findNavController().navigate(R.id.action_LoginScreen_to_FirstFragment)
+            } else if (isSuccess == false) {
+                Toast.makeText(m, "Login failed", Toast.LENGTH_SHORT).show()
+                m.dataViewModel.loginHandled()
+            }
+        }
         _binding = LoginScreenBinding.inflate(inflater, container, false)
         return binding.root
 
@@ -33,8 +47,8 @@ class LoginScreen : Fragment() {
         val editTextPassword = binding.editTextPassword
         val textViewSignUp = binding.textViewSignUp
 
-        editTextEmail.setText(prefs.getEmail())
-        editTextPassword.setText(prefs.getPassword())
+        editTextEmail.setText(m.dataViewModel.getEmail())
+        editTextPassword.setText(m.dataViewModel.getPassword())
 
         textViewSignUp.setOnClickListener {
             findNavController().navigate(R.id.action_LoginScreen_to_RegisterScreen)
@@ -43,11 +57,7 @@ class LoginScreen : Fragment() {
         binding.loginButton.setOnClickListener {
             val email: String = editTextEmail.text.toString()
             val password: String = editTextPassword.text.toString()
-            //TODO(login)
-
-            findNavController().navigate(R.id.action_LoginScreen_to_FirstFragment)
-            prefs.saveEmail(email)
-            prefs.savePassword(password)
+            m.dataViewModel.login("email", email, password)
         }
     }
 

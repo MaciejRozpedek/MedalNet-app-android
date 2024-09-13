@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun checkIfLoggedIn(): Boolean {
-        token = prefs.getToken().orEmpty()
+        var token: String = dataViewModel.getToken()
         if (token.isEmpty()) return false
         if (JwtUtils.isTokenExpired(token)) return false
         return true
@@ -70,7 +70,17 @@ class MainActivity : AppCompatActivity() {
             invalidateOptionsMenu()
         }
         return when (item.itemId) {
-            R.id.action_settings -> true
+            R.id.action_settings -> {
+                dataViewModel.logout()
+                findNavController(R.id.nav_host_fragment_content_main).navigate(R.id.action_FirstFragment_to_LoginScreen)
+                true
+            }
+
+//            R.id.action_profile_options -> {
+//                navController.navigate(R.id.AccountScreen)
+//                true
+//            }
+
             else -> super.onOptionsItemSelected(item)
         }
     }

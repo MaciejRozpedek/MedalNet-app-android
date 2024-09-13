@@ -28,6 +28,9 @@
         <action
             android:id="@+id/action_RegisterScreen_to_LoginScreen"
             app:destination="@id/LoginScreen" />
+        <action
+            android:id="@+id/action_RegisterScreen_to_FirstFragment"
+            app:destination="@id/FirstFragment" />
     </fragment>
 
     <fragment

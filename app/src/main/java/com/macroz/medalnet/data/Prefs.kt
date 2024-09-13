@@ -45,6 +45,7 @@ class Prefs(context: Context) {
 
     fun saveToken(token: String) {
         editor.putString("token", token)
+        editor.commit()
     }
 
     fun getToken(): String? {

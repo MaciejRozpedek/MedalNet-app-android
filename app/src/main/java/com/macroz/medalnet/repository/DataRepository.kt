@@ -4,17 +4,21 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.macroz.medalnet.data.Medal
+import com.macroz.medalnet.dtos.LoginRequestDto
+import com.macroz.medalnet.dtos.LoginResDTO
+import com.macroz.medalnet.dtos.RegisterRequestDTO
+import com.macroz.medalnet.dtos.RegisterResDTO
+import com.macroz.medalnet.prefs
 import com.macroz.medalnet.service.ApiService
-import com.macroz.medalnet.token
 import okhttp3.OkHttpClient
-import okhttp3.internal.platform.android.AndroidLogHandler.setLevel
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.*
 import retrofit2.converter.gson.GsonConverterFactory
 
 class DataRepository {
 
-    private val apiService: ApiService
+    private val apiService: ApiService// TODO("remove hardcoded token")
+    private var token: String = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyMTIzNDU2QHBhc3MubmV0IiwidXNlcm5hbWUiOiJ1c2VyMTIzNDU2IiwiZXhwIjoxOTM4ODk2MjQ4fQ.WW8ZqKJxX-g8tOG_4rkFeTJARz-Dm5nM08gXo2c-0gs"
 
     init {
         val logging = HttpLoggingInterceptor().apply {
@@ -34,10 +38,12 @@ class DataRepository {
         apiService = retrofit.create(ApiService::class.java)
     }
 
+    //////////////////////////////////////////// MEDALS ////////////////////////////////////////////
+
     fun getAllMedals(): LiveData<List<Medal>> {
         val medals = MutableLiveData<List<Medal>>()
 
-        val call = apiService.getAllMedals(token)
+        val call = apiService.getAllMedals("Bearer $token")
         call.enqueue(object : Callback<List<Medal>> {
             override fun onResponse(call: Call<List<Medal>>, response: Response<List<Medal>>) {
                 if (response.isSuccessful) {
@@ -63,7 +69,7 @@ class DataRepository {
     fun getMedalsByName(query: String): LiveData<List<Medal>> {
         val medals = MutableLiveData<List<Medal>>()
 
-        val call = apiService.getMedalsByName(query, token)
+        val call = apiService.getMedalsByName(query, "Bearer $token")
         call.enqueue(object : Callback<List<Medal>> {
             override fun onResponse(call: Call<List<Medal>>, response: Response<List<Medal>>) {
                 if (response.isSuccessful) {
@@ -91,8 +97,8 @@ class DataRepository {
         fun onFailure(message: String)
     }
 
-    fun addMedal(medal: Medal, bearerToken: String, callback: AddMedalCallback) {
-        val call = apiService.addMedal(medal, "$bearerToken")
+    fun addMedal(medal: Medal, callback: AddMedalCallback) {
+        val call = apiService.addMedal(medal, "Bearer $token")
 
         call.enqueue(object : Callback<Medal> {
             override fun onResponse(call: Call<Medal>, response: Response<Medal>) {
@@ -107,5 +113,86 @@ class DataRepository {
                 callback.onFailure("Request failed: ${t.message}")
             }
         })
+    }
+
+    //////////////////////////////////////////// USERS ////////////////////////////////////////////
+
+    suspend fun login(emailOrUsername: String, emailOrUsernameValue: String, password: String): Boolean {
+        val loginRequestDto = LoginRequestDto(emailOrUsernameValue, emailOrUsernameValue, password)
+
+        return try {
+            val response: Response<LoginResDTO> = apiService.login(loginRequestDto, emailOrUsername)
+            if (response.isSuccessful) {
+                token = response.body()?.token.orEmpty()
+                prefs.saveToken(token)
+                Log.d("API_SUCCESS", "Request was successful: $token")
+                true // Login was successful
+            } else {
+                val statusCode = response.code()
+                Log.e("API_ERROR", "HTTP Status Code: $statusCode")
+                val errorBody = response.errorBody()?.string()
+                Log.e("API_ERROR", "Error Body: $errorBody")
+                false // Login failed
+            }
+        } catch (e: Exception) {
+            Log.e("API_FAILURE", "Request failed: ${e.message}")
+            false // Login failed
+        }
+    }
+
+    suspend fun register(email: String, username: String, password: String): Boolean {
+        val registerRequestDTO = RegisterRequestDTO(username, email, password)
+
+        return try {
+            val response: Response<RegisterResDTO> = apiService.register(registerRequestDTO)
+            if (response.isSuccessful) {
+                token = response.body()?.token.orEmpty()
+                prefs.saveToken(token)
+                Log.d("API_SUCCESS", "Request was successful: $token")
+                true // Register was successful
+            } else {
+                val statusCode = response.code()
+                Log.e("API_ERROR", "HTTP Status Code: $statusCode")
+
+                val errorBody = response.errorBody()?.string()
+                Log.e("API_ERROR", "Error Body: $errorBody")
+                false // Register failed
+            }
+        } catch (e: Exception) {
+            Log.e("API_FAILURE", "Request failed: ${e.message}")
+            false // Register failed
+        }
+    }
+
+    fun saveEmail(email: String) {
+        prefs.saveEmail(email)
+    }
+
+    fun saveUsername(username: String) {
+        prefs.saveUsername(username)
+    }
+
+    fun savePassword(password: String) {
+        prefs.savePassword(password)
+    }
+
+    fun getEmail(): String {
+        return prefs.getEmail().orEmpty()
+    }
+
+    fun getUsername(): String {
+        return prefs.getUsername().orEmpty()
+    }
+
+    fun getPassword(): String {
+        return prefs.getPassword().orEmpty()
+    }
+
+    fun saveToken(token: String) {
+        prefs.saveToken(token)
+    }
+
+    fun getToken(): String {
+        return prefs.getToken().orEmpty()
     }
 }

@@ -6,7 +6,7 @@
         android:id="@+id/action_settings"
         android:icon="@drawable/user_avatar_filled"
         app:showAsAction="never"
-        android:title="@string/action_settings" />
+        android:title="Log out" />
 
     <item
         android:id="@+id/action_profile_options"
