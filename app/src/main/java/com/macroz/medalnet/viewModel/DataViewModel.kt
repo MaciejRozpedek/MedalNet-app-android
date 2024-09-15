@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.macroz.medalnet.data.Medal
+import com.macroz.medalnet.data.User
 import com.macroz.medalnet.repository.DataRepository
 import com.macroz.medalnet.repository.DataRepository.AddMedalCallback
 import kotlinx.coroutines.launch
@@ -62,6 +63,10 @@ class DataViewModel(private val repository: DataRepository) : ViewModel() {
 
     fun logout() {
         repository.saveToken("")
+    }
+
+    fun getUserProfile(): LiveData<User> {
+        return repository.getUserProfile()
     }
 
     fun saveEmail(email: String) {

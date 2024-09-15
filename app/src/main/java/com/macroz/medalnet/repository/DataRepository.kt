@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.macroz.medalnet.data.Medal
+import com.macroz.medalnet.data.User
 import com.macroz.medalnet.dtos.LoginRequestDto
 import com.macroz.medalnet.dtos.LoginResDTO
 import com.macroz.medalnet.dtos.RegisterRequestDTO
@@ -162,6 +163,32 @@ class DataRepository {
             Log.e("API_FAILURE", "Request failed: ${e.message}")
             false // Register failed
         }
+    }
+
+    fun getUserProfile(): LiveData<User> {
+        val user = MutableLiveData<User>()
+
+        val call = apiService.getUserProfile("Bearer $token")
+        call.enqueue(object : Callback<User> {
+            override fun onResponse(call: Call<User>, response: Response<User>) {
+                if (response.isSuccessful) {
+                    user.value = response.body()
+                    Log.d("API_SUCCESS", "Request was successful: ${response.body()}")
+                } else {
+                    val statusCode = response.code()
+                    Log.e("API_ERROR", "HTTP Status Code: $statusCode")
+
+                    val errorBody = response.errorBody()?.string()
+                    Log.e("API_ERROR", "Error Body: $errorBody")
+                }
+            }
+
+            override fun onFailure(call: Call<User>, t: Throwable) {
+                Log.e("API_FAILURE", "Request failed (no response): ${t.message}")
+            }
+        })
+
+        return user
     }
 
     fun saveEmail(email: String) {

@@ -63,24 +63,6 @@ class SearchScreen : Fragment() {
         })
     }
 
-    override fun onResume() {
-        super.onResume()
-
-        val medals: MutableList<Medal> = mutableListOf()
-        medals.add(Medal(1, "123456789", "Michał", "Bliszczyk", "", "", null, "", 0))
-        medals.add(Medal(2, "234567890", "Ernest", "Angelo", "kapitan", "", null, "legitymacja + KW uprawnia do noszenia odznaczenia z trzema okuciami", 0))
-        medals.add(Medal(3, "345678901", "Virtuti", "", "", "", null, "", 0))
-        medals.add(Medal(4, "456789012", "Virtuti Militari", "", "", "", null, "", 0))
-        medals.add(Medal(5, "567890123", "order 5", "", "", "", null, "", 0))
-
-        val recyclerView = binding.searchScreenRecyclerView
-        val adapter = MedalAdapter()
-        recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(activity,
-            LinearLayoutManager.HORIZONTAL, false)
-        adapter.submitList(medals)
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

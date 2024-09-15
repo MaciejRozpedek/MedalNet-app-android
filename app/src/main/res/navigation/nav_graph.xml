@@ -52,6 +52,20 @@
             android:id="@+id/action_FirstFragment_to_EditScreen"
             app:destination="@id/EditScreen" />
     </fragment>
+
+    <fragment
+        android:id="@+id/AccountScreen"
+        android:name="com.macroz.medalnet.AccountScreen"
+        tools:layout="@layout/account_screen" >
+        <action
+            android:id="@+id/action_AccountScreen_to_LoginScreen"
+            app:destination="@id/LoginScreen"
+            app:enterAnim="@anim/enter_from_left"
+            app:exitAnim="@anim/exit_to_right"
+            app:popEnterAnim="@anim/enter_from_right"
+            app:popExitAnim="@anim/exit_to_left" />
+    </fragment>
+
     <fragment
         android:id="@+id/SearchScreen"
         android:name="com.macroz.medalnet.SearchScreen"

@@ -1,6 +1,7 @@
 package com.macroz.medalnet.service
 
 import com.macroz.medalnet.data.Medal
+import com.macroz.medalnet.data.User
 import com.macroz.medalnet.dtos.LoginRequestDto
 import com.macroz.medalnet.dtos.LoginResDTO
 import com.macroz.medalnet.dtos.RegisterRequestDTO
@@ -46,4 +47,9 @@ interface ApiService {
     suspend fun register(
         @Body registerRequestDTO: RegisterRequestDTO
     ): Response<RegisterResDTO>
+
+    @GET("/user/profile")
+    fun getUserProfile(
+        @Header("Authorization") bearerToken: String
+    ): Call<User>
 }
