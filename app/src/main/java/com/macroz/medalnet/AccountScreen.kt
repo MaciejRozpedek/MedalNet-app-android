@@ -10,6 +10,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.macroz.medalnet.adapters.MedalAdapter
 import com.macroz.medalnet.data.User
 import com.macroz.medalnet.databinding.AccountScreenBinding
 
@@ -58,6 +60,15 @@ class AccountScreen : Fragment() {
                 } catch (_: Exception) {
                 }
             }
+        }
+
+        val recyclerView = binding.myMedalsRecyclerView
+        val adapter = MedalAdapter()
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(activity,
+            LinearLayoutManager.HORIZONTAL, false)
+        m.dataViewModel.getMyMedals().observe(viewLifecycleOwner) { medals ->
+            adapter.submitList(medals)
         }
 
         binding.logoutButton.setOnClickListener {

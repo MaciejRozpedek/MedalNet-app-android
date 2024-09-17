@@ -154,17 +154,18 @@
             <TextView
                 android:id="@+id/medalNotes"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:padding="8dp"
                 android:text="Notes"
                 android:textSize="16sp"
                 android:textStyle="bold" />
-        </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@android:color/black" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/black" />
+        </LinearLayout>
 
     </LinearLayout>
 

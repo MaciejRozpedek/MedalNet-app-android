@@ -67,6 +67,32 @@ class DataRepository {
         return medals
     }
 
+    fun getMyMedals(): LiveData<List<Medal>> {
+        val medals = MutableLiveData<List<Medal>>()
+
+        val call = apiService.getMyMedals("Bearer $token")
+        call.enqueue(object : Callback<List<Medal>> {
+            override fun onResponse(call: Call<List<Medal>>, response: Response<List<Medal>>) {
+                if (response.isSuccessful) {
+                    medals.value = response.body()
+                    Log.d("API_SUCCESS", "Request was successful: ${response.body()}")
+                } else {
+                    val statusCode = response.code()
+                    Log.e("API_ERROR", "HTTP Status Code: $statusCode")
+
+                    val errorBody = response.errorBody()?.string()
+                    Log.e("API_ERROR", "Error Body: $errorBody")
+                }
+            }
+
+            override fun onFailure(call: Call<List<Medal>>, t: Throwable) {
+                Log.e("API_FAILURE", "Request failed (no response): ${t.message}")
+            }
+        })
+
+        return medals
+    }
+
     fun getMedalsByName(query: String): LiveData<List<Medal>> {
         val medals = MutableLiveData<List<Medal>>()
 

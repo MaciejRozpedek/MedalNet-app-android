@@ -21,6 +21,10 @@ class DataViewModel(private val repository: DataRepository) : ViewModel() {
         return repository.getAllMedals()
     }
 
+    fun getMyMedals(): LiveData<List<Medal>> {
+        return repository.getMyMedals()
+    }
+
     fun searchMedalsByName(query: String): LiveData<List<Medal>> {
         return repository.getMedalsByName(query)
     }

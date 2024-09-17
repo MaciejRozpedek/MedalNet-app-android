@@ -27,7 +27,8 @@ class MedalAdapter : ListAdapter<Medal, MedalViewHolder>(MEDAL_COMPARATOR) {
             current.surname,
             current.rank,
             current.unit,
-            current.year
+            current.year,
+            current.notes
         )
 
     }
@@ -48,7 +49,8 @@ class MedalAdapter : ListAdapter<Medal, MedalViewHolder>(MEDAL_COMPARATOR) {
             surname: String?,
             rank: String?,
             unit: String?,
-            year: Long?
+            year: Long?,
+            notes: String?
         ) {
             if (display) {
                 medalNumber.text = "NUMER"
@@ -72,7 +74,8 @@ class MedalAdapter : ListAdapter<Medal, MedalViewHolder>(MEDAL_COMPARATOR) {
             medalSurname.text = surname
             medalRank.text = rank
             medalUnit.text = unit
-            medalYear.text = year.toString()
+            medalYear.text = (year ?: "").toString()
+            medalNotes.text = notes
 
             itemView.setOnClickListener {
             }
