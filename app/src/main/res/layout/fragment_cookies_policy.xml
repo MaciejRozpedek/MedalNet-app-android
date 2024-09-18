@@ -1,0 +1,28 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/cookie_policy_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cookies Policy"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:layout_marginBottom="10dp" />
+
+        <TextView
+            android:id="@+id/cookie_policy_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="We use cookies to enhance your experience, analyze site traffic, and serve tailored content. By continuing to use this site, you consent to our use of cookies. You can adjust your cookie settings in your browser at any time. Learn more about our cookie usage in the full policy."
+            android:textSize="16sp"
+            android:layout_marginBottom="10dp" />
+    </LinearLayout>
+</ScrollView>

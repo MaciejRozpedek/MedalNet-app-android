@@ -51,6 +51,12 @@
         <action
             android:id="@+id/action_FirstFragment_to_EditScreen"
             app:destination="@id/EditScreen" />
+        <action
+            android:id="@+id/action_FirstFragment_to_CookiesPolicyFragment"
+            app:destination="@id/fragmentCookiesPolicy" />
+        <action
+            android:id="@+id/action_FirstFragment_to_PrivacyPolicyFragment"
+            app:destination="@id/fragmentPrivacyPolicy" />
     </fragment>
 
     <fragment
@@ -80,4 +86,14 @@
         android:id="@+id/EditScreen"
         android:name="com.macroz.medalnet.EditScreen"
         tools:layout="@layout/edit_screen" />
+
+    <fragment
+        android:id="@+id/fragmentCookiesPolicy"
+        android:name="com.macroz.medalnet.FragmentCookiesPolicy"
+        tools:layout="@layout/fragment_cookies_policy" />
+
+    <fragment
+        android:id="@+id/fragmentPrivacyPolicy"
+        android:name="com.macroz.medalnet.FragmentPrivacyPolicy"
+        tools:layout="@layout/fragment_privacy_policy" />
 </navigation>

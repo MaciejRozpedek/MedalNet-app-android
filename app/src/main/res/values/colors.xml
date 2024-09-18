@@ -10,5 +10,9 @@
     <color name="main_orange_light">#FFFFCC66</color>
     <color name="main_orange">#FFFF8C00</color>
     <color name="main_orange_dark">#FFD2691E</color>
+    <color name="light_gray">#FFB0B0B0</color>
+    <color name="gray">#FF606060</color>
+    <color name="main_blue">#2196F3</color> <!-- Example blue color -->
+    <color name="main_blue_dark">#1976D2</color> <!-- Darker blue variant -->
     <color name="background">#ffffff</color>
 </resources>
