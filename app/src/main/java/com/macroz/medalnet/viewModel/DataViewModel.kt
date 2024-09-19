@@ -29,6 +29,10 @@ class DataViewModel(private val repository: DataRepository) : ViewModel() {
         return repository.getMedalsByName(query)
     }
 
+    fun searchMedalsByNumber(number: String): LiveData<List<Medal>> {
+        return repository.getMedalsByNumber(number)
+    }
+
     fun addMedal(medal: Medal, callback: AddMedalCallback) {
         repository.addMedal(medal, callback)
     }

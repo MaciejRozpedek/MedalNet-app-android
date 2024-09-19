@@ -34,6 +34,8 @@ class SearchScreen : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val recyclerView = binding.searchScreenRecyclerView
+        val adapter = MedalAdapter()
 
         binding.searchScreenSearchView.setOnQueryTextListener(object :
             SearchView.OnQueryTextListener {
@@ -44,12 +46,35 @@ class SearchScreen : Fragment() {
 
             override fun onQueryTextChange(newText: String?): Boolean {
                 if (newText.isNullOrEmpty()) return false
-                val recyclerView = binding.searchScreenRecyclerView
-                val adapter = MedalAdapter()
                 recyclerView.adapter = adapter
                 recyclerView.layoutManager = LinearLayoutManager(activity,
                     LinearLayoutManager.HORIZONTAL, false)
                 val medals = m.dataViewModel.searchMedalsByName(newText)
+
+                medals.observe(viewLifecycleOwner) { medals ->
+                    // add new medal responsible for displaying descriptions of medal fields
+                    val newMedal = Medal(-1, null, null, null, null, null, null, null, -1)
+                    val updatedMedals = mutableListOf(newMedal)
+                    updatedMedals.addAll(medals)
+                    adapter.submitList(updatedMedals)
+                }
+                return false
+            }
+        })
+
+        binding.byNumberSearchView.setOnQueryTextListener(object :
+        SearchView.OnQueryTextListener {
+
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                if (newText.isNullOrEmpty()) return false
+                recyclerView.adapter = adapter
+                recyclerView.layoutManager = LinearLayoutManager(activity,
+                    LinearLayoutManager.HORIZONTAL, false)
+                val medals = m.dataViewModel.searchMedalsByNumber(newText)
 
                 medals.observe(viewLifecycleOwner) { medals ->
                     // add new medal responsible for displaying descriptions of medal fields

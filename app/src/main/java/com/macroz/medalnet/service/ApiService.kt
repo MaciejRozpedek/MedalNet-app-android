@@ -34,6 +34,12 @@ interface ApiService {
         @Header("Authorization") bearerToken: String
     ): Call<List<Medal>>
 
+    @GET("/medal/search-by-number/{number}")
+    fun getMedalsByNumber(
+        @Path("number") number: String,
+        @Header("Authorization") bearerToken: String
+    ): Call<List<Medal>>
+
     @POST("/medal/add")
     fun addMedal(
         @Body medal: Medal,

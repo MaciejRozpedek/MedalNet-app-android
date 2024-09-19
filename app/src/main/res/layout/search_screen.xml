@@ -13,9 +13,24 @@
         android:layout_marginEnd="10dp"
         android:background="@drawable/search_view_background"
         android:iconifiedByDefault="false"
+        android:queryHint="Search by name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <SearchView
+        android:id="@+id/byNumberSearchView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/search_view_background"
+        android:iconifiedByDefault="false"
+        android:queryHint="Search by number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/searchScreenSearchView" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/searchScreenRecyclerView"
@@ -27,6 +42,6 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/searchScreenSearchView"
+        app:layout_constraintTop_toBottomOf="@id/byNumberSearchView"
         tools:listitem="@layout/medal_item" />
 </androidx.constraintlayout.widget.ConstraintLayout>
