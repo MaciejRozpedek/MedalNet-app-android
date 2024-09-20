@@ -103,6 +103,7 @@ class DataRepository {
                     medals.value = response.body()
                     Log.d("API_SUCCESS", "Request was successful: ${response.body()}")
                 }  else {
+                    medals.value = listOf(Medal(-1, null, null, null, null, null, null, null, -1))
                     val statusCode = response.code()
                     Log.e("API_ERROR", "HTTP Status Code: $statusCode")
 
@@ -112,6 +113,7 @@ class DataRepository {
             }
 
             override fun onFailure(call: Call<List<Medal>>, t: Throwable) {
+                medals.value = listOf(Medal(-1, null, null, null, null, null, null, null, -1))
                 Log.e("API_FAILURE", "Request failed (no response): ${t.message}")
             }
         })
@@ -129,6 +131,7 @@ class DataRepository {
                     medals.value = response.body()
                     Log.d("API_SUCCESS", "Request was successful: ${response.body()}")
                 } else {
+                    medals.value = listOf(Medal(-1, null, null, null, null, null, null, null, -1))
                     val statusCode = response.code()
                     Log.e("API_ERROR", "HTTP Status Code: $statusCode")
 
@@ -138,6 +141,7 @@ class DataRepository {
             }
 
             override fun onFailure(call: Call<List<Medal>>, t: Throwable) {
+                medals.value = listOf(Medal(-1, null, null, null, null, null, null, null, -1))
                 Log.e("API_FAILURE", "Request failed (no response): ${t.message}")
             }
         })
