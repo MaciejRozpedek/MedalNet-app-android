@@ -1,10 +1,13 @@
 package com.macroz.medalnet.adapters
 
 import android.graphics.Typeface
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -41,6 +44,7 @@ class MedalAdapter : ListAdapter<Medal, MedalViewHolder>(MEDAL_COMPARATOR) {
         private val medalUnit: TextView = itemView.findViewById(R.id.medalUnit)
         private val medalYear: TextView = itemView.findViewById(R.id.medalYear)
         private val medalNotes: TextView = itemView.findViewById(R.id.medalNotes)
+        private val editButton: Button = itemView.findViewById(R.id.editButton)
 
         fun bind(
             display: Boolean,
@@ -77,7 +81,22 @@ class MedalAdapter : ListAdapter<Medal, MedalViewHolder>(MEDAL_COMPARATOR) {
             medalYear.text = (year ?: "").toString()
             medalNotes.text = notes
 
-            itemView.setOnClickListener {
+            editButton.setOnClickListener {
+                val navController = Navigation.findNavController(itemView)
+                val medal = Medal(
+                    -1,
+                    number,
+                    name,
+                    surname,
+                    rank,
+                    unit,
+                    year,
+                    notes,
+                    -1
+                )
+                val bundle: Bundle = Bundle()
+                bundle.putParcelable("medal", medal)
+                navController.navigate(R.id.EditScreen, bundle)
             }
         }
 

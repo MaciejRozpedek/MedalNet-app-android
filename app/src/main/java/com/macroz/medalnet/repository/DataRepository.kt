@@ -172,6 +172,24 @@ class DataRepository {
         })
     }
 
+    fun updateMedal(medal: Medal, callback: AddMedalCallback) {
+        val call = apiService.updateMedal(medal, "Bearer $token")
+
+        call.enqueue(object : Callback<Medal> {
+            override fun onResponse(call: Call<Medal>, response: Response<Medal>) {
+                if (response.isSuccessful) {
+                    callback.onSuccess()
+                } else {
+                    callback.onFailure("Failed to update medal: ${response.message()}")
+                }
+            }
+
+            override fun onFailure(call: Call<Medal>, t: Throwable) {
+                callback.onFailure("Request failed: ${t.message}")
+            }
+        })
+    }
+
     //////////////////////////////////////////// USERS ////////////////////////////////////////////
 
     suspend fun login(emailOrUsername: String, emailOrUsernameValue: String, password: String): Boolean {

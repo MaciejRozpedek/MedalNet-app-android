@@ -12,6 +12,7 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Path
 
 interface ApiService {
@@ -42,6 +43,12 @@ interface ApiService {
 
     @POST("/medal/add")
     fun addMedal(
+        @Body medal: Medal,
+        @Header("Authorization") bearerToken: String
+    ): Call<Medal>
+
+    @PUT("/medal/update")
+    fun updateMedal(
         @Body medal: Medal,
         @Header("Authorization") bearerToken: String
     ): Call<Medal>

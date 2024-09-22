@@ -37,6 +37,10 @@ class DataViewModel(private val repository: DataRepository) : ViewModel() {
         repository.addMedal(medal, callback)
     }
 
+    fun updateMedal(medal: Medal, callback: AddMedalCallback) {
+        repository.updateMedal(medal, callback)
+    }
+
     fun login(emailOrUsername: String, emailOrUsernameValue: String, password: String) {
         viewModelScope.launch {
             val success = repository.login(emailOrUsername, emailOrUsernameValue, password)
