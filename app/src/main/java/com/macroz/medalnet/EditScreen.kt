@@ -15,6 +15,7 @@ class EditScreen : Fragment(), DataRepository.AddMedalCallback {
 
         private lateinit var m: MainActivity
     private var _binding: EditScreenBinding? = null
+    private var medalId: Long = -1L
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -34,7 +35,7 @@ class EditScreen : Fragment(), DataRepository.AddMedalCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val medalNumberTextView = binding.medalNumberTextView
+        val medalNumberEditText = binding.medalNumberEditText
         val medalNameEditText = binding.medalNameEditText
         val medalSurnameEditText = binding.medalSurnameEditText
         val medalRankEditText = binding.medalRankEditText
@@ -47,7 +48,8 @@ class EditScreen : Fragment(), DataRepository.AddMedalCallback {
         if (arguments != null) {
             val medal: Medal? = arguments?.getParcelable("medal")
             if (medal != null){
-                medalNumberTextView.text = medal.number
+                medalId = medal.id
+                medalNumberEditText.setText(medal.number)
                 medalNameEditText.setText(medal.name)
                 medalSurnameEditText.setText(medal.surname)
                 medalRankEditText.setText(medal.rank)
@@ -58,8 +60,8 @@ class EditScreen : Fragment(), DataRepository.AddMedalCallback {
         }
         saveMedalButton.setOnClickListener {
             val medal = Medal(
-                id = -1L,
-                number = medalNumberTextView.text.toString(),
+                id = medalId,
+                number = medalNumberEditText.text.toString(),
                 name = medalNameEditText.text.toString(),
                 surname = medalSurnameEditText.text.toString(),
                 rank = medalRankEditText.text.toString(),
@@ -80,7 +82,7 @@ class EditScreen : Fragment(), DataRepository.AddMedalCallback {
         Toast.makeText(m, "Medal successfully saved!", Toast.LENGTH_SHORT).show()
     }
 
-    override fun onFailure(message: String) {
+    override fun onFailure(message: String, medal: Medal?) {
         Toast.makeText(m, message, Toast.LENGTH_SHORT).show()
     }
 

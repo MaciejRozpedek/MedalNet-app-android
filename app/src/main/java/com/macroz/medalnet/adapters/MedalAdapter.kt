@@ -78,7 +78,11 @@ class MedalAdapter : ListAdapter<Medal, MedalViewHolder>(MEDAL_COMPARATOR) {
             medalSurname.text = surname
             medalRank.text = rank
             medalUnit.text = unit
-            medalYear.text = (year ?: "").toString()
+            if (year == 0L) {
+                medalYear.text = ""
+            } else {
+                medalYear.text = (year ?: "").toString()
+            }
             medalNotes.text = notes
 
             editButton.setOnClickListener {

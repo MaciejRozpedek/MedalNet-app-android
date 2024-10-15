@@ -39,8 +39,8 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/medalNumberTextView"
+            <EditText
+                android:id="@+id/medalNumberEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Number"

@@ -3,6 +3,7 @@ package com.macroz.medalnet.repository
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.google.gson.Gson
 import com.macroz.medalnet.data.Medal
 import com.macroz.medalnet.data.User
 import com.macroz.medalnet.dtos.LoginRequestDto
@@ -18,8 +19,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class DataRepository {
 
-    private val apiService: ApiService// TODO("remove hardcoded token")
-    private var token: String = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyMTIzNDU2QHBhc3MubmV0IiwidXNlcm5hbWUiOiJ1c2VyMTIzNDU2IiwiZXhwIjoxOTM4ODk2MjQ4fQ.WW8ZqKJxX-g8tOG_4rkFeTJARz-Dm5nM08gXo2c-0gs"
+    private val apiService: ApiService
+    private var token: String = prefs.getToken().orEmpty()
 
     init {
         val logging = HttpLoggingInterceptor().apply {
@@ -151,7 +152,7 @@ class DataRepository {
 
     interface AddMedalCallback {
         fun onSuccess()
-        fun onFailure(message: String)
+        fun onFailure(message: String, medal: Medal?)
     }
 
     fun addMedal(medal: Medal, callback: AddMedalCallback) {
@@ -161,13 +162,24 @@ class DataRepository {
             override fun onResponse(call: Call<Medal>, response: Response<Medal>) {
                 if (response.isSuccessful) {
                     callback.onSuccess()
+                } else if (response.code() == 409) { // check if response code is CONFLICT
+                    // Manually parse the error body
+                    val errorBody = response.errorBody()?.string()
+                    val conflictingMedal = errorBody?.let {
+                        try {
+                            Gson().fromJson(it, Medal::class.java)
+                        } catch (e: Exception) {
+                            null
+                        }
+                    }
+                    callback.onFailure("CONFLICT", conflictingMedal)
                 } else {
-                    callback.onFailure("Failed to add medal: ${response.message()}")
+                    callback.onFailure("Failed to add medal: ${response.message()}", null)
                 }
             }
 
             override fun onFailure(call: Call<Medal>, t: Throwable) {
-                callback.onFailure("Request failed: ${t.message}")
+                callback.onFailure("Request failed: ${t.message}", null)
             }
         })
     }
@@ -180,12 +192,12 @@ class DataRepository {
                 if (response.isSuccessful) {
                     callback.onSuccess()
                 } else {
-                    callback.onFailure("Failed to update medal: ${response.message()}")
+                    callback.onFailure("Failed to update medal: ${response.message()}", null)
                 }
             }
 
             override fun onFailure(call: Call<Medal>, t: Throwable) {
-                callback.onFailure("Request failed: ${t.message}")
+                callback.onFailure("Request failed: ${t.message}", null)
             }
         })
     }
